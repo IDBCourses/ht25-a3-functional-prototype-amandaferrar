@@ -1,10 +1,55 @@
-.thing {
-    width: 100px;
-    height: 100px;
+
+.thing1RH {
+    width: 50px;
+    height: 140px;
     background-color: deeppink;
     position: absolute;
-    border-radius: 50%;
+    /* right: 30px */
+    /* border-radius: 50%;  removing so that the circle becomes a square*/
 }
+
+.thing2RH {
+    width: 50px;
+    height: 140px;
+    background-color: rgb(141, 20, 255);
+    position: absolute;
+    /* right: 110px */
+}
+
+.thing3RH {
+    width: 50px;
+    height: 140px;
+    background-color: rgb(20, 255, 208);
+    position: absolute;
+    /* right: 190px */
+}
+
+.thing4RH {
+    width: 50px;
+    height: 140px;
+    background-color: rgb(255, 20, 94);
+    position: absolute;
+    /* right: 270px */
+}
+
+#thing5LH {
+    width: 100px;
+    height: 140px;
+    background-color: rgb(255, 110, 20);
+    position: absolute;
+    /* left: 30px */
+}
+
+/* 
+.thing6 {
+    width: 50px;
+    height: 140px;
+    background-color: rgb(255, 20, 228);
+    position: absolute;
+    right: 430px
+} */
+
+/* Here I have copied thing to create the 6 different things with different colours */
 
 /* Prevent padding and border from affecting element width. */
 *,

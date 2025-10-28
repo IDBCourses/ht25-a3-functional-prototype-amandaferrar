@@ -3,7 +3,14 @@
  * This selects the element with id "thing0" if present.
  * @type {HTMLElement|null}
  */
-export const thing = document.querySelector("#thing0");
+
+export const thing1RH = document.querySelector("#thing1RH");
+export const thing2RH = document.querySelector("#thing2RH");
+export const thing3RH = document.querySelector("#thing3RH");
+export const thing4RH = document.querySelector("#thing4RH");
+export const thing5LH = document.querySelector("#thing5LH");
+// export const thing6 = document.querySelector("#thing6");
+
 
 const state = {
   // store x/y in pixels (initialized to center of window)
@@ -76,7 +83,7 @@ export function setPosition(x, y, element = thing) {
  * @param {HTMLElement} [element=thing] - Optional element to update.
  * @returns {void}
  */
-export function setPositionPixels(px, py, element = thing) {
+export function setPositionPixels(px, py, element) {
   // With pixel-based state, just store the px/py values directly.
   state.x = px;
   state.y = py;
@@ -85,6 +92,8 @@ export function setPositionPixels(px, py, element = thing) {
     element.style.translate = `${ state.x }px ${ state.y }px`;
   }
 }
+
+
 
 /**
  * Set the size of the element. Call as either:
