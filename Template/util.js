@@ -4,11 +4,11 @@
  * @type {HTMLElement|null}
  */
 
-export const thing1RH = document.querySelector("#thing1RH");
-export const thing2RH = document.querySelector("#thing2RH");
-export const thing3RH = document.querySelector("#thing3RH");
-export const thing4RH = document.querySelector("#thing4RH");
-export const thing5LH = document.querySelector("#thing5LH");
+export const thingG = document.querySelector("#thing1RH");
+export const thingE = document.querySelector("#thing2RH");
+export const thingD = document.querySelector("#thing3RH");
+export const thingC = document.querySelector("#thing4RH");
+export const thing5 = document.querySelector("#thing5LH");
 // export const thing6 = document.querySelector("#thing6");
 
 
