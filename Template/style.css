@@ -4,8 +4,10 @@
     height: 140px;
     background-color: deeppink;
     position: absolute;
-    /* right: 30px */
-    /* border-radius: 50%;  removing so that the circle becomes a square*/
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 10px; /* how much gap should be at the centre of the box */
 }
 
 .thing2RH {
@@ -13,7 +15,10 @@
     height: 140px;
     background-color: rgb(141, 20, 255);
     position: absolute;
-    /* right: 110px */
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 10px; /* how much gap should be at the centre of the box */
 }
 
 .thing3RH {
@@ -21,7 +26,10 @@
     height: 140px;
     background-color: rgb(20, 255, 208);
     position: absolute;
-    /* right: 190px */
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 10px; /* how much gap should be at the centre of the box */
 }
 
 .thing4RH {
@@ -29,7 +37,10 @@
     height: 140px;
     background-color: rgb(255, 20, 94);
     position: absolute;
-    /* right: 270px */
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 10px; /* how much gap should be at the centre of the box */
 }
 
 #thing5LH {
@@ -37,7 +48,11 @@
     height: 140px;
     background-color: rgb(255, 110, 20);
     position: absolute;
-    /* left: 30px */
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 10px; /* how much gap should be at the centre of the box */
+    
 }
 
 /* 
