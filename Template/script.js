@@ -45,10 +45,10 @@ function chord (){
 
 // this is the 'ground' so that the blocks will not fall off the screen
 const groundY = window.innerHeight - 140; // 140 is the height of the blocks as the top left corner is the point its set
-const melody = ['z','e', 'd', 'c', 'd', 'e', 'e', 'e',
-  'z','d', 'd', 'd', 'e', 'g', 'g',
-  'z','e', 'd', 'c', 'd', 'e', 'e', 'e', 
-  'z','e', 'd', 'd', 'e', 'd', 'c'
+const melody = ['z','e', 'd', 'c', 'd', 'z','e', 'e', 'e',
+  'z','d', 'd', 'd','z', 'e', 'g', 'g',
+  'z','e', 'd', 'c', 'd','z', 'e', 'e', 'e', 
+  'z','e', 'd', 'd','z', 'e', 'd', 'c'
 ]
 let melodyI = 0 // this is what we will use to move through the melody array
 
@@ -63,6 +63,8 @@ function nextNote (){
   melodyI += 1;
 }
 
+let speed = 2
+let hitGround = false;
 
 // audio for the notes, each has a variable that is linked to the audio file, then the function calls the audio file to play
 
@@ -135,9 +137,7 @@ function playcChord (){
 
 
 function start () {
-  setTimeout (function() {
-    nextNote();
-  }, 1000);
+  nextNote();
   }
 
 
@@ -148,20 +148,22 @@ function loop() {
 
   if (falling5){
     if (thing5Y < groundY) { // if the position of thing is above the ground
-    thing5Y += 5;  // add 5px each loop
-  } else if (thing5Y > groundY){
-    thing5Y = groundY // otherwise stop falling
-    score -= 1;
+    thing5Y += speed;  // add 3px each loop
+  } else {
+    thing5Y = groundY; // otherwise stop falling
     updateScore ();
+  } if (!hitGround){
+    score -= 2;
+    hitGround = true;
   }
     
   }
 
   if (fallingC){
     if (thingCY < groundY){
-      thingCY += 5;
+      thingCY += speed;
     } else {
-      score -= 1;
+      score -= 2;
       updateScore ();
       fallingC = false;
       
@@ -170,9 +172,9 @@ function loop() {
     
   if (fallingD){
     if (thingDY < groundY) {
-      thingDY += 5;
+      thingDY += speed;
     } else {
-      score -= 1;
+      score -= 2;
       updateScore ();
       fallingD = false;
       
@@ -181,9 +183,9 @@ function loop() {
 
   if (fallingE){
     if (thingEY < groundY) {
-      thingEY += 5;
+      thingEY += speed;
     } else {
-      score -= 1;
+      score -= 2;
       updateScore ();
       fallingE = false;
       
@@ -192,9 +194,9 @@ function loop() {
 
   if (fallingG){
     if (thingGY < groundY) {
-      thingGY += 5;
+      thingGY += speed;
     } else {
-      score -= 1;
+      score -= 2;
       updateScore ();
       fallingG = false;
       
@@ -246,14 +248,18 @@ function setup() {
       
   } else if (event.key === "g"){
       playG4();
-      
-      
+         
+  } else if (event.key === " "){
+    speed = 5
   }
 });
 
 document.addEventListener('keyup', function(event){
   keysPressed[event.key] = false;
   chordPlayed = false;
+ if (event.key === " "){
+  speed = 2;
+ }
 });
 
 
