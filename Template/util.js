@@ -9,7 +9,7 @@ export const thingE = document.querySelector("#thing2RH");
 export const thingD = document.querySelector("#thing3RH");
 export const thingC = document.querySelector("#thing4RH");
 export const thing5 = document.querySelector("#thing5LH");
-// export const thing6 = document.querySelector("#thing6");
+export const thingScore = document.querySelector("#thingScore");
 
 
 const state = {

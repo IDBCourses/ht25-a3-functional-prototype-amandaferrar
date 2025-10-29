@@ -28,6 +28,11 @@ let fallingD = false
 let fallingC = false
 let falling5 = false
 
+let score = 0;
+function updateScore (){
+    Util.thingScore.textContent = "Score: "+ score;
+  }
+
 let keysPressed = {};
 let chordPlayed = false;
 
@@ -65,6 +70,8 @@ function playC4 (){
   const C4 = new Audio ('C4.mp3');
   //C4.currentTime = 0; // this means that when the users press the key again the audio file restarts, saving users having to wait till its over before pressing again
   C4.play ();
+  score += 1;
+  updateScore ();
   // setTimeout(() => {
   // Util.thingC.style.display = "none"}); // this is making the thing block hidden
   fallingC = false; // means that the block stops falling (even though it is now hidden) 
@@ -78,6 +85,8 @@ function playD4 (){
   //D4.currentTime = 0; 
   const D4= new Audio ('D4.mp3');
   D4.play ();
+  score += 1;
+  updateScore ();
   // setTimeout(() => {
   // Util.thingD.style.display = "none"});
   fallingD = false;
@@ -89,6 +98,8 @@ function playD4 (){
 function playE4 (){
   const E4= new Audio ('E4.mp3');
   E4.play ();
+  score += 1;
+  updateScore ();
   // setTimeout(() => {
   // Util.thingE.style.display = "none"});
   fallingE = false;
@@ -100,6 +111,8 @@ function playE4 (){
 function playG4 (){
   const G4= new Audio ('G4.mp3');
   G4.play ();
+  score += 1;
+  updateScore ();
   // setTimeout(() => {
   // Util.thingG.style.display = "none"});
   fallingG = false;
@@ -110,6 +123,8 @@ function playG4 (){
 let cChord= new Audio ('cChord.mp3');
 function playcChord (){
   cChord.play ();
+  score += 1;
+  updateScore ();
   falling5 = false;
   nextNote();
   thing5Y = -140
@@ -134,8 +149,10 @@ function loop() {
   if (falling5){
     if (thing5Y < groundY) { // if the position of thing is above the ground
     thing5Y += 5;  // add 5px each loop
-  } else if (thing5Y >= groundY){
+  } else if (thing5Y > groundY){
     thing5Y = groundY // otherwise stop falling
+    score -= 1;
+    updateScore ();
   }
     
   }
@@ -144,6 +161,8 @@ function loop() {
     if (thingCY < groundY){
       thingCY += 5;
     } else {
+      score -= 1;
+      updateScore ();
       fallingC = false;
       
       
@@ -153,6 +172,8 @@ function loop() {
     if (thingDY < groundY) {
       thingDY += 5;
     } else {
+      score -= 1;
+      updateScore ();
       fallingD = false;
       
       
@@ -162,6 +183,8 @@ function loop() {
     if (thingEY < groundY) {
       thingEY += 5;
     } else {
+      score -= 1;
+      updateScore ();
       fallingE = false;
       
       
@@ -171,6 +194,8 @@ function loop() {
     if (thingGY < groundY) {
       thingGY += 5;
     } else {
+      score -= 1;
+      updateScore ();
       fallingG = false;
       
       
@@ -197,6 +222,7 @@ function setup() {
   Util.thingD.textContent = "D";
   Util.thingC.textContent = "C";
   Util.thing5.textContent = "I O P";
+  
 
   // Put your event listener code here
   document.addEventListener('pointerdown', start) // user clicks pointer down to start the first block falling is then triggered in start function

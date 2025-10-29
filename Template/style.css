@@ -43,7 +43,7 @@
     padding-bottom: 10px; /* how much gap should be at the centre of the box */
 }
 
-#thing5LH {
+.thing5LH {
     width: 100px;
     height: 140px;
     background-color: rgb(255, 110, 20);
@@ -51,9 +51,26 @@
     display: flex;
     align-items: flex-end; /*this is so that the text is at the bottom of the box*/
     justify-content: center; /* so that the text is in the centre of the box*/
-    padding-bottom: 10px; /* how much gap should be at the centre of the box */
+    padding-top: 50px; /* how much gap should be at the centre of the box */
     
 }
+
+.thingScore {
+    width: 100px;
+    height: 60px;
+    background-color: rgb(78, 199, 26);
+    position: absolute;
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 20px; /* how much gap should be at the centre of the box */
+    
+}
+
+
+
+
+
 
 /* 
 .thing6 {
