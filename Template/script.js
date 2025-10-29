@@ -7,11 +7,11 @@ import * as Util from "./util.js";
 
 // State variables are the parts of your program that change over time.
 // the x coordinates for each thing, thingG refers to the note G that is played etc.
-let thingGX = window.innerWidth/2 +180;
-let thingEX = window.innerWidth/2 +110;
-let thingDX = window.innerWidth/2 +40;
-let thingCX = window.innerWidth/2 -30;
-let thing5X = window.innerWidth/2 -230;
+let thingGX = window.innerWidth/2 +30;
+let thingEX = window.innerWidth/2 -40;
+let thingDX = window.innerWidth/2 -110;
+let thingCX = window.innerWidth/2 -180;
+let thing5X = window.innerWidth/2 +230;
 
 
 // the Y coordinates for each thing
@@ -28,7 +28,14 @@ let fallingD = false
 let fallingC = false
 let falling5 = false
 
+let keysPressed = {};
+let chordPlayed = false;
 
+function chord (){
+  if (falling5 && keysPressed ['i'] && keysPressed['o'] && keysPressed ['p']) // by adding falling5 into this the other blocks stopped falling if we hold down the chord because it now only happens if thing 5 is falling which it isnt once the chords are recognised for pressing once.
+    playcChord();
+  chordPlayed = true; // this means that the chord will only be played once if it were to be held down
+}
 
 
 // this is the 'ground' so that the blocks will not fall off the screen
@@ -100,9 +107,8 @@ function playG4 (){
   nextNote();
 }
 
-
+let cChord= new Audio ('cChord.mp3');
 function playcChord (){
-  const cChord= new Audio ('cChord.mp3');
   cChord.play ();
   falling5 = false;
   nextNote();
@@ -128,11 +134,11 @@ function loop() {
   if (falling5){
     if (thing5Y < groundY) { // if the position of thing is above the ground
     thing5Y += 5;  // add 5px each loop
-  } else {
-    falling5= false; // otherwise stop falling
+  } else if (thing5Y >= groundY){
+    thing5Y = groundY // otherwise stop falling
+  }
     
-    
-  }}
+  }
 
   if (fallingC){
     if (thingCY < groundY){
@@ -181,7 +187,7 @@ function loop() {
   // if (falling5) falling ();
 
   window.requestAnimationFrame(loop);
-}
+  }
 
 // Setup is run once, at the start of the program. It sets everything up for us!
 function setup() {
@@ -190,7 +196,7 @@ function setup() {
   Util.thingE.textContent = "E";
   Util.thingD.textContent = "D";
   Util.thingC.textContent = "C";
-  Util.thing5.textContent = "Z";
+  Util.thing5.textContent = "I O P";
 
   // Put your event listener code here
   document.addEventListener('pointerdown', start) // user clicks pointer down to start the first block falling is then triggered in start function
@@ -199,11 +205,9 @@ function setup() {
 
 
   document.addEventListener('keydown', function(event) { // setting what happens when different keys are pressed
-   if (event.key === "z"){
-    
-    playcChord ();
-    // nextNote();
-  } else if (event.key === "c"){
+   keysPressed[event.key] = true;
+   chord();
+   if (event.key === "c"){
       playC4();
       
       
@@ -221,6 +225,10 @@ function setup() {
   }
 });
 
+document.addEventListener('keyup', function(event){
+  keysPressed[event.key] = false;
+  chordPlayed = false;
+});
 
 
 
@@ -228,3 +236,9 @@ function setup() {
 }
 
 setup(); // Always remember to call setup()!
+
+
+
+
+
+
