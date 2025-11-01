@@ -8,11 +8,11 @@ import * as Util from "./util.js";
 // State variables are the parts of your program that change over time.
 // the x coordinates for each thing, thingG refers to the note G that is played etc.
 // this is set to the window width/2 which gets the midpoint and then the +30 etc are setting the position, this is so that the blocks are all lined up next to eachother
-let thingGX = window.innerWidth/2 +30;
-let thingEX = window.innerWidth/2 -40;
-let thingDX = window.innerWidth/2 -110;
-let thingCX = window.innerWidth/2 -180;
-let thing5X = window.innerWidth/2 +230;
+let thingGX = window.innerWidth/2 -30;
+let thingEX = window.innerWidth/2 +40;
+let thingDX = window.innerWidth/2 +110;
+let thingCX = window.innerWidth/2 +180;
+let thing5X = window.innerWidth/2 -230;
 
 
 // the Y coordinates for each thing
@@ -39,30 +39,49 @@ let keysPressed = {}; // empty object for things pressed
 let chordPlayed = false; // will be used so that if chord has been played it will not be able to be replayed
 
 function chord (){ // this is needed so that the user will be required to hold down all three keys for the playcChord to be triggered
-  if (falling5 && keysPressed ['i'] && keysPressed['o'] && keysPressed ['p']) // by adding falling5 into this the other blocks stopped falling if we hold down the chord because it now only happens if thing 5 is falling which it isnt once the chords are recognised for pressing once.
+  if (chordPlayed === true) return;
+  
+  if (falling5 && keysPressed ['i'] && keysPressed['o'] && keysPressed ['p']) {// by adding falling5 into this the other blocks stopped falling if we hold down the chord because it now only happens if thing 5 is falling which it isnt once the chords are recognised for pressing once.
+    chordPlayed = true; // this means that the chord will only be played once if it were to be held down
     playcChord();
-  chordPlayed = true; // this means that the chord will only be played once if it were to be held down
-}
+}}
 
 
 // this is the 'ground' so that the blocks will not fall off the screen
 const groundY = window.innerHeight - 140; // 140 is the height of the blocks as the top left corner is the point its set, this means that when setting other positions in relation to the ground we will not need to -140 every time
-const melody = ['z','e', 'd', 'c', 'd', 'z','e', 'e', 'e',
-  'z','d', 'd', 'd','z', 'e', 'g', 'g',
-  'z','e', 'd', 'c', 'd','z', 'e', 'e', 'e', 
-  'z','e', 'd', 'd','z', 'e', 'd', 'c'
+const melody = ['e', 'd', 'c', 'd','e', 'e', 'e',
+  'd', 'd', 'd', 'e', 'g', 'g',
+  'e', 'd', 'c', 'd', 'e', 'e', 'e', 
+  'e', 'd', 'd', 'e', 'd', 'c'
 ]
-let melodyI = 0 // this is what we will use to move through the melody array, starts at 0 so that z is called first
+let index = 0 // this is what we will use to move through the melody array, starts at 0 so that z is called first
+const harmony = ['z', 'y', 'y', 'z','y', 'y', 'y',
+  'z', 'y', 'y', 'z', 'y', 'y',
+  'z', 'y', 'y', 'z', 'y', 'y', 'y', 
+  'z', 'y', 'y', 'z', 'y', 'y'
+]
+
+// function playHarmony () {
+//   if (melody [0]) falling5 = true;
+//   if (melody [3]) falling5 = true;
+//   if (melody [7]) falling5 = true;
+//   if (melody [10]) falling5 = true;
+//   if (melody [13]) falling5 = true;
+//   if (melody [16]) falling5 = true;
+//   if (melody [20]) falling5 = true;
+//   if (melody [23]) falling5 = true;
+// }
 
 // this is used to trigger the array to move to the next thing when nextNote is called. If the array is currently on d for example than falling D becomes true, this means the blcok D will fall and then the user will be expected to click onto D to move to the next part of the array
 function nextNote (){
-  if (melody[melodyI] === 'g') fallingG = true;
-  if (melody[melodyI] === 'e') fallingE = true;
-  if (melody[melodyI] === 'd') fallingD = true;
-  if (melody[melodyI] === 'c') fallingC = true;
-  if (melody[melodyI] === 'z') falling5 = true;
+  if (melody[index] === 'g') fallingG = true;
+  if (melody[index] === 'e') fallingE = true;
+  if (melody[index] === 'd') fallingD = true;
+  if (melody[index] === 'c') fallingC = true;
 
-  melodyI += 1; // after the next block has fallen than the index will add one, this means the next time the nextNote function is called, the index will have added 1
+  if(harmony[index] === 'z') falling5 = true;
+
+  index += 1; // after the next block has fallen than the index will add one, this means the next time the nextNote function is called, the index will have added 1
 }
 
 let speed = 2 // this is allowing for the spacebar to adjust the speed
@@ -78,6 +97,7 @@ function playC4 (){
   fallingC = false; // means that the block stops falling 
   thingCY = -140; // resets the position of thingC to be just above the screen, insead of hiding and reappearing the element so its neater
   nextNote(); // calling the nextNote function to play so that the next block is triggered to fall allowing the user to click onto the next note
+  // playHarmony();
 }
 
 
@@ -89,6 +109,7 @@ function playD4 (){
   fallingD = false;
   thingDY = - 140;
   nextNote();
+  //playHarmony();
 }
 
 
@@ -100,6 +121,7 @@ function playE4 (){
   fallingE = false;
   thingEY = - 140;
   nextNote();
+  // playHarmony();
 }
 
 
@@ -111,18 +133,21 @@ function playG4 (){
   fallingG = false;
   thingGY = - 140;
   nextNote();
+  //playHarmony();
 }
 
 
 // here we have set the variable to cChord first so that there is only 1 cChord, this means that the chord can only be played once at a time so stops issues with multiple chord presses being allowed
-const cChord= new Audio ('cChord.mp3');
+const cChord= new Audio ('chord3.mp3');
+cChord.preload = 'auto'; // this is to remove the delay when key pressed and sound plays for the first time
+cChord.loop = false; // this means the chord should keep playing as long as it is held down in a loop
 function playcChord (){
   cChord.play ();
   score += 1;
   updateScore ();
   falling5 = false;
-  nextNote();
   thing5Y = -140
+
 }
 
 
@@ -131,6 +156,7 @@ function playcChord (){
 // when pointerdown starts the game the next note is called making the first block fall
 function start () {
   nextNote();
+  // playHarmony();
   }
 
 
@@ -247,7 +273,12 @@ function setup() {
 
 document.addEventListener('keyup', function(event){
   keysPressed[event.key] = false; // this is releasing the pressed down state so that the key in question is no longer being held down, is held up. removes from object.
+  
+  if (event.key === 'i' || event.key === 'o' || event.key === 'p'){
   chordPlayed = false; // resets here so that the chord would hypothetically be able to be replayed
+  cChord.pause ();
+  }
+
  if (event.key === " "){
   speed = 2; // making the falling speed so therefore the game speed faster if the space key is eld down
  }
