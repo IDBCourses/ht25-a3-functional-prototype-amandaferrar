@@ -87,9 +87,25 @@ function nextNote (){
 let speed = 2 // this is allowing for the spacebar to adjust the speed
 let hitGround = false; // this is for thing5, is tracking if the block has hit the ground yet
 
+function wrongNote (){
+ 
+  speed =0; // this is freesing the falling while this happens
+  document.body.style.backgroundColor = "#ea2828ff"; // makes background red
+  Util.thingScore.style.fontWeight = 'bold'; // sets score text to be bold
+
+  setTimeout(function() {
+    speed = 2;
+    document.body.style.backgroundColor = "#f7ddedff";
+    Util.thingScore.style.fontWeight = 'normal';
+    
+  }, 2000);
+};
+
+
 
 // the below functions are for the sounds to play, I have set a variable for each sound within the function, this is so that each time playC4 for example, is called a new file will be created. This allows for the notes to play 'ontop' of eachother so that the next note comes as soon as the previous one starts playing
 function playC4 (){
+  if (fallingC || thingCY === groundY){
   const C4 = new Audio ('C4.mp3'); // linking C4 to the audio file
   C4.play ();
   score += 1; // adding 1 to the score
@@ -98,10 +114,15 @@ function playC4 (){
   thingCY = -140; // resets the position of thingC to be just above the screen, insead of hiding and reappearing the element so its neater
   nextNote(); // calling the nextNote function to play so that the next block is triggered to fall allowing the user to click onto the next note
   // playHarmony();
-}
+} else {
+  score -= 1;
+  updateScore();
+  wrongNote();
+}}
 
 
 function playD4 (){
+  if (fallingD || thingDY === groundY){
   const D4= new Audio ('D4.mp3');
   D4.play ();
   score += 1;
@@ -110,10 +131,15 @@ function playD4 (){
   thingDY = - 140;
   nextNote();
   //playHarmony();
-}
+} else {
+  score -= 1;
+  updateScore();
+  wrongNote();
+}}
 
 
 function playE4 (){
+  if (fallingE || thingEY === groundY){
   const E4= new Audio ('E4.mp3');
   E4.play ();
   score += 1;
@@ -121,11 +147,15 @@ function playE4 (){
   fallingE = false;
   thingEY = - 140;
   nextNote();
-  // playHarmony();
-}
+} else {
+  score -= 1;
+  updateScore();
+  wrongNote();
+}}
 
 
 function playG4 (){
+  if (fallingG || thingGY === groundY){
   const G4= new Audio ('G4.mp3');
   G4.play ();
   score += 1;
@@ -133,22 +163,31 @@ function playG4 (){
   fallingG = false;
   thingGY = - 140;
   nextNote();
-  //playHarmony();
-}
+} else {
+  score -=1;
+  updateScore();
+  wrongNote();
+}}
 
 
 // here we have set the variable to cChord first so that there is only 1 cChord, this means that the chord can only be played once at a time so stops issues with multiple chord presses being allowed
-const cChord= new Audio ('chord3.mp3');
-cChord.preload = 'auto'; // this is to remove the delay when key pressed and sound plays for the first time
-cChord.loop = false; // this means the chord should keep playing as long as it is held down in a loop
+
 function playcChord (){
+  if (falling5 || thing5Y === groundY){
+    const cChord= new Audio ('chord3.mp3');
+    cChord.preload = 'auto'; // this is to remove the delay when key pressed and sound plays for the first time
+    cChord.loop = false; // this means the chord should keep playing as long as it is held down in a loop
   cChord.play ();
   score += 1;
   updateScore ();
+  hitGround = true;
   falling5 = false;
   thing5Y = -140
-
-}
+} else {
+  score -= 1;
+  updateScore();
+  wrongNote();
+  }}
 
 
 
@@ -174,7 +213,7 @@ function loop() {
   } if (!hitGround){
     score -= 2;
     hitGround = true;
-  } // can I chnage it here bearing in mind that groundY is set to window. inner height-140 aready??
+  } 
     
   }
 
@@ -268,6 +307,11 @@ function setup() {
          
   } else if (event.key === " "){
     speed = 4
+
+  } else if (event.key === "i" ||event.key === "o"||event.key === "p") {
+
+  } else {
+    wrongNote(); // PROBLEM- if you play the chord wrong note is also triggered
   }
 });
 
