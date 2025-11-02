@@ -29,22 +29,34 @@ let fallingD = false
 let fallingC = false
 let falling5 = false
 
+
 // for the scoring. Variable starts at 0, then function update score which is added to the text in the CSS thingScore and updates the score shown
 let score = 0;
 function updateScore (){
     Util.thingScore.textContent = "Score: "+ score;
   }
 
+let combo = 0;
 let keysPressed = {}; // empty object for things pressed 
 let chordPlayed = false; // will be used so that if chord has been played it will not be able to be replayed
+let chord5CanPlay = false;
 
 function chord (){ // this is needed so that the user will be required to hold down all three keys for the playcChord to be triggered
   if (chordPlayed === true) return;
   
-  if (falling5 && keysPressed ['i'] && keysPressed['o'] && keysPressed ['p']) {// by adding falling5 into this the other blocks stopped falling if we hold down the chord because it now only happens if thing 5 is falling which it isnt once the chords are recognised for pressing once.
+  if (chord5CanPlay && keysPressed ['i'] && keysPressed['o'] && keysPressed ['p']) {// by adding falling5 into this the other blocks stopped falling if we hold down the chord because it now only happens if thing 5 is falling which it isnt once the chords are recognised for pressing once.
     chordPlayed = true; // this means that the chord will only be played once if it were to be held down
     playcChord();
 }}
+
+function hitNote (){
+  combo += 1;
+  if (speed === 2){
+     score += combo;
+  } else if (speed === 4){
+    score += combo +=1}
+  updateScore();
+}
 
 
 // this is the 'ground' so that the blocks will not fall off the screen
@@ -61,16 +73,6 @@ const harmony = ['z', 'y', 'y', 'z','y', 'y', 'y',
   'z', 'y', 'y', 'z', 'y', 'y'
 ]
 
-// function playHarmony () {
-//   if (melody [0]) falling5 = true;
-//   if (melody [3]) falling5 = true;
-//   if (melody [7]) falling5 = true;
-//   if (melody [10]) falling5 = true;
-//   if (melody [13]) falling5 = true;
-//   if (melody [16]) falling5 = true;
-//   if (melody [20]) falling5 = true;
-//   if (melody [23]) falling5 = true;
-// }
 
 // this is used to trigger the array to move to the next thing when nextNote is called. If the array is currently on d for example than falling D becomes true, this means the blcok D will fall and then the user will be expected to click onto D to move to the next part of the array
 function nextNote (){
@@ -79,7 +81,11 @@ function nextNote (){
   if (melody[index] === 'd') fallingD = true;
   if (melody[index] === 'c') fallingC = true;
 
-  if(harmony[index] === 'z') falling5 = true;
+  if(harmony[index] === 'z') {
+    falling5 = true;
+    chord5CanPlay = true;
+    hitGround = false;
+  }
 
   index += 1; // after the next block has fallen than the index will add one, this means the next time the nextNote function is called, the index will have added 1
 }
@@ -88,13 +94,15 @@ let speed = 2 // this is allowing for the spacebar to adjust the speed
 let hitGround = false; // this is for thing5, is tracking if the block has hit the ground yet
 
 function wrongNote (){
+  combo = 0; // streak is effectively lost here
  
+  let currentSpeed = speed; // this means that if speed is faster because of space bar then it will still return to the current speed.
   speed =0; // this is freesing the falling while this happens
   document.body.style.backgroundColor = "#ea2828ff"; // makes background red
   Util.thingScore.style.fontWeight = 'bold'; // sets score text to be bold
 
   setTimeout(function() {
-    speed = 2;
+    speed = currentSpeed;
     document.body.style.backgroundColor = "#f7ddedff";
     Util.thingScore.style.fontWeight = 'normal';
     
@@ -108,7 +116,12 @@ function playC4 (){
   if (fallingC || thingCY === groundY){
   const C4 = new Audio ('C4.mp3'); // linking C4 to the audio file
   C4.play ();
-  score += 1; // adding 1 to the score
+  document.body.style.backgroundColor= "rgba(123, 250, 138, 1)";
+    setTimeout(() => {
+      document.body.style.backgroundColor = "#cef7c2ff";
+    }, 600);
+    hitNote();
+  
   updateScore (); // calling the update score so that the score actually updates when 1 is added to it
   fallingC = false; // means that the block stops falling 
   thingCY = -140; // resets the position of thingC to be just above the screen, insead of hiding and reappearing the element so its neater
@@ -125,7 +138,12 @@ function playD4 (){
   if (fallingD || thingDY === groundY){
   const D4= new Audio ('D4.mp3');
   D4.play ();
-  score += 1;
+  document.body.style.backgroundColor= "rgba(123, 250, 138, 1)";
+    setTimeout(() => {
+      document.body.style.backgroundColor = "#cef7c2ff";
+    }, 600);
+
+  hitNote();
   updateScore ();
   fallingD = false;
   thingDY = - 140;
@@ -142,7 +160,11 @@ function playE4 (){
   if (fallingE || thingEY === groundY){
   const E4= new Audio ('E4.mp3');
   E4.play ();
-  score += 1;
+  document.body.style.backgroundColor= "rgba(123, 250, 138, 1)";
+    setTimeout(() => {
+      document.body.style.backgroundColor = "#cef7c2ff";
+    }, 600);
+  hitNote();
   updateScore ();
   fallingE = false;
   thingEY = - 140;
@@ -158,7 +180,11 @@ function playG4 (){
   if (fallingG || thingGY === groundY){
   const G4= new Audio ('G4.mp3');
   G4.play ();
-  score += 1;
+  document.body.style.backgroundColor= "rgba(123, 250, 138, 1)";
+    setTimeout(() => {
+      document.body.style.backgroundColor = "#cef7c2ff";
+    }, 600);
+  hitNote();
   updateScore ();
   fallingG = false;
   thingGY = - 140;
@@ -173,15 +199,20 @@ function playG4 (){
 // here we have set the variable to cChord first so that there is only 1 cChord, this means that the chord can only be played once at a time so stops issues with multiple chord presses being allowed
 
 function playcChord (){
-  if (falling5 || thing5Y === groundY){
+  if (chord5CanPlay || thing5Y === groundY){
     const cChord= new Audio ('chord3.mp3');
     cChord.preload = 'auto'; // this is to remove the delay when key pressed and sound plays for the first time
     cChord.loop = false; // this means the chord should keep playing as long as it is held down in a loop
   cChord.play ();
-  score += 1;
+  document.body.style.backgroundColor= "rgba(123, 250, 138, 1)";
+    setTimeout(() => {
+      document.body.style.backgroundColor = "#cef7c2ff";
+    }, 600);
+  hitNote();
   updateScore ();
   hitGround = true;
   falling5 = false;
+  chord5CanPlay = false;
   thing5Y = -140
 } else {
   score -= 1;
@@ -195,7 +226,21 @@ function playcChord (){
 // when pointerdown starts the game the next note is called making the first block fall
 function start () {
   nextNote();
-  // playHarmony();
+
+  setTimeout(() => {
+   document.getElementById("message1").style.display = "none";
+   document.getElementById("message2").style.display = "none";
+   document.getElementById("message3").style.display = "none";
+   document.getElementById("message4").style.display = "none";
+
+   document.getElementById("thing1RH").style.display = "flex";
+   document.getElementById("thing2RH").style.display = "flex";
+   document.getElementById("thing3RH").style.display = "flex";
+   document.getElementById("thing4RH").style.display = "flex";
+   document.getElementById("thing5LH").style.display = "flex";
+   document.getElementById("thingScore").style.display = "flex";
+
+   }, ); 
   }
 
 
@@ -209,13 +254,14 @@ function loop() {
     thing5Y += speed;  // add 3px each loop
   } else {
     thing5Y = groundY; // otherwise stop falling
-    updateScore ();
-  } if (!hitGround){
+    if (!hitGround){
     score -= 2;
+    updateScore ();
     hitGround = true;
-  } 
     
-  }
+  } 
+  falling5 = false;
+}}
 
   if (fallingC){
     if (thingCY < groundY){ // if it has not yet touched the ground
@@ -311,7 +357,9 @@ function setup() {
   } else if (event.key === "i" ||event.key === "o"||event.key === "p") {
 
   } else {
-    wrongNote(); // PROBLEM- if you play the chord wrong note is also triggered
+    score -=1;
+    updateScore();
+    wrongNote(); 
   }
 });
 
@@ -320,13 +368,21 @@ document.addEventListener('keyup', function(event){
   
   if (event.key === 'i' || event.key === 'o' || event.key === 'p'){
   chordPlayed = false; // resets here so that the chord would hypothetically be able to be replayed
-  cChord.pause ();
+  playcChordcChord.pause ();
   }
 
  if (event.key === " "){
   speed = 2; // making the falling speed so therefore the game speed faster if the space key is eld down
  }
 });
+
+ document.getElementById("thing1RH").style.display = "none";
+ document.getElementById("thing2RH").style.display = "none";
+ document.getElementById("thing3RH").style.display = "none";
+ document.getElementById("thing4RH").style.display = "none";
+ document.getElementById("thing5LH").style.display = "none";
+ document.getElementById("thingScore").style.display = "none";
+
 
 
 
