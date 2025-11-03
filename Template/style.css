@@ -67,20 +67,6 @@
     
 }
 
-.floating-score {
-    position: fixed;            /* stays on screen */
-    font-size: 32px;
-    font-weight: bold;
-    opacity: 1;                 /* hidden initially */
-    pointer-events: none;       /* doesn’t block clicks */
-    z-index: 1000;              /* on top of everything */
-    top: 50%;                   /* vertically center */
-    left: 50%;                  /* horizontally center */
-    transform: translate(-50%, -50%); /* truly centered */
-    color: green;               /* default color for + */
-    transition: opacity 0.3s;   /* smooth fade in/out */
-}
-
 
 .message {
  font-size: 32px;       
