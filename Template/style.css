@@ -68,6 +68,24 @@
 }
 
 
+.showPointsAdded {
+    width: 100px;
+    height: 60px;
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 34px;  
+    display: flex;
+    align-items: flex-end; /*this is so that the text is at the bottom of the box*/
+    justify-content: center; /* so that the text is in the centre of the box*/
+    padding-bottom: 20px; /* how much gap should be at the centre of the box */
+    
+}
+
+
 .message {
  font-size: 32px;       
  text-align: center;    
@@ -80,18 +98,6 @@
 
 
 
-/* 
-.thing6 {
-    width: 50px;
-    height: 140px;
-    background-color: rgb(255, 20, 228);
-    position: absolute;
-    right: 430px
-} */
-
-/* Here I have copied thing to create the 6 different things with different colours */
-
-/* Prevent padding and border from affecting element width. */
 *,
 ::before,
 ::after {

@@ -10,6 +10,7 @@ export const thingD = document.querySelector("#thing3RH");
 export const thingC = document.querySelector("#thing4RH");
 export const thing5 = document.querySelector("#thing5LH");
 export const thingScore = document.querySelector("#thingScore");
+export const showPointsAdded = document.querySelector("#showPointsAdded");
 
 
 

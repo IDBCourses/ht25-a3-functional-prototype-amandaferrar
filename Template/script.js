@@ -83,11 +83,18 @@ function hitNote (){ // as you hit the note...
   if (speed === 2){
      pointsAdded= combo; // points added for that round is the combo
   } else if (speed === advancedSpeed){
-    pointsAdded = combo +1} // add the combo to pointsAdded and add an extra 1 as a reward for going fast
+    pointsAdded = combo *2} // add the combo to pointsAdded and add an extra 1 as a reward for going fast
   score += pointsAdded;  
   updateScore(); // this is called so that the change is actually visable on the screen
   // pointsAdded should now represent how many points has been added to the game that hit
+
+   Util.showPointsAdded.textContent = "+" + pointsAdded; // this is resetting the showPointsAdded now that it will be + cause the note has been hit
+  setTimeout(() => {
+      Util.showPointsAdded.textContent = ""; // will get rid of the points added after 1s
+      pointsAdded = 0; // reset for next note
+  }, 1000);
 }
+
 
 
 // nextNote function is used to trigger the array to move to the next thing when nextNote is called. If the array is currently on d for example than falling D becomes true, this means the block D will fall and then the user will be expected to click onto D to move to the next part of the array
@@ -111,11 +118,14 @@ function wrongNote (){
   speed =0; // this is freesing the falling while this happens
   document.body.style.backgroundColor = "#ea2828ff"; // makes background red
   Util.thingScore.style.fontWeight = 'bold'; // sets score text to be bold
+  Util.showPointsAdded.textContent = pointsAdded;
 
   setTimeout(function() {
     speed = currentSpeed; // this means that the speed returns to whatever it was before be it the advanced speed or normal speed
     document.body.style.backgroundColor = "#f7ddedff"; // returns to background colour
     Util.thingScore.style.fontWeight = 'normal'; // no longer bold
+    Util.showPointsAdded.textContent = " ";
+    pointsAdded = 0;
     
   }, 2000); // after a 2 second delay
 };
@@ -252,12 +262,14 @@ function start () {
 // Loop function - code that runs over and over again
 function loop() {
 
+   
   if (falling5){ // if falling5 is true
     if (thing5Y < groundY) { // if the position of thing is above the ground
     thing5Y += speed;  // add 3px each loop
   } else { // so it has touched the ground
     combo = 0; // resets the streak
     score -= 2; // lose 2 from the score
+    pointsAdded -= 2; // lose 2 from points added (though they are now being taken away :/)
     updateScore ();
     wrongNote (); // calls wrong note as its late
     falling5 = false; // stops falling
@@ -271,6 +283,7 @@ function loop() {
     } else { // so if it has touched the ground
       combo = 0;
       score -= 2; // -2 from score
+      pointsAdded -= 2;
       updateScore ();
       wrongNote ();
       fallingC = false; // stop falling
@@ -283,6 +296,7 @@ function loop() {
     } else {
       combo = 0;
       score -= 2;
+      pointsAdded -= 2;
       updateScore ();
       wrongNote ();
       fallingD = false;
@@ -296,6 +310,7 @@ function loop() {
     } else {
       combo = 0;
       score -= 2;
+      pointsAdded -= 2;
       updateScore ();
       wrongNote();
       fallingE = false;
@@ -309,6 +324,7 @@ function loop() {
     } else {
       combo = 0;
       score -= 2;
+      pointsAdded -= 2;
       updateScore ();
       wrongNote ();
       fallingG = false;
@@ -334,6 +350,7 @@ function setup() {
   Util.thingD.textContent = "D";
   Util.thingC.textContent = "C";
   Util.thing5.textContent = "I O P";
+  Util.showPointsAdded.textContent = " ";
   // setting background colour
   document.body.style.backgroundColor = "#f7ddedff";
 
@@ -356,6 +373,7 @@ function setup() {
   // by having this empty area it means that the score will not -1 when these iop keys are pressed
   } else { // if any other key on the keyboard is pressed
     score -=1; // lose 1 point
+    pointsAdded -= 1;
     updateScore();
     wrongNote(); // wrong note is triggered
   }
