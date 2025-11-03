@@ -36,10 +36,11 @@ function updateScore (){
     Util.thingScore.textContent = "Score: "+ score;
   }
 
-let combo = 0;
+let combo = 1;
 let keysPressed = {}; // empty object for things pressed 
 let chordPlayed = false; // will be used so that if chord has been played it will not be able to be replayed
 let chord5CanPlay = false;
+
 
 function chord (){ // this is needed so that the user will be required to hold down all three keys for the playcChord to be triggered
   if (chordPlayed === true) return;
@@ -48,14 +49,22 @@ function chord (){ // this is needed so that the user will be required to hold d
     chordPlayed = true; // this means that the chord will only be played once if it were to be held down
     playcChord();
 }}
+let points;
 
 function hitNote (){
   combo += 1;
+  
   if (speed === 2){
-     score += combo;
+     points = combo;
+     
   } else if (speed === 4){
-    score += combo +=1}
-  updateScore();
+    points = combo +1; // get a bonus if going faster speed
+    
+  }
+    score += points;
+    showScoreChange();
+    updateScore();
+  
 }
 
 
@@ -221,13 +230,38 @@ function playcChord (){
   }}
 
 
+function showScoreChange (){
+  const floatScore = document.getElementById("floating-score");
+  if (!floatScore) return; // this is if the element doesnt exist
+
+
+  if (combo > 0 ){
+    floatScore.textContent = "+" + points
+    floatScore.style.color = "rgba(33, 135, 12, 0.75)";
+} else {
+    floatScore.textContent = "" + points;
+    floatScore.style.color = "rgba(248, 58, 58, 0.75)";
+    
+}
+ floatScore.style.opacity = 1;
+
+setTimeout(() => {
+  floatScore.style.opacity = 0;
+  floatScore.textContent = ""; // empties the text content ready to be reused
+}, 1000);
+}
+
+
+
 
 
 // when pointerdown starts the game the next note is called making the first block fall
 function start () {
   nextNote();
 
-  setTimeout(() => {
+   document.getElementById("floating-score").style.display = "block";
+
+    // hides the instructions and shows the things (blocks)
    document.getElementById("message1").style.display = "none";
    document.getElementById("message2").style.display = "none";
    document.getElementById("message3").style.display = "none";
@@ -239,9 +273,8 @@ function start () {
    document.getElementById("thing4RH").style.display = "flex";
    document.getElementById("thing5LH").style.display = "flex";
    document.getElementById("thingScore").style.display = "flex";
-
-   }, ); 
-  }
+}
+  
 
 
 
@@ -368,7 +401,7 @@ document.addEventListener('keyup', function(event){
   
   if (event.key === 'i' || event.key === 'o' || event.key === 'p'){
   chordPlayed = false; // resets here so that the chord would hypothetically be able to be replayed
-  playcChordcChord.pause ();
+  
   }
 
  if (event.key === " "){
@@ -382,7 +415,7 @@ document.addEventListener('keyup', function(event){
  document.getElementById("thing4RH").style.display = "none";
  document.getElementById("thing5LH").style.display = "none";
  document.getElementById("thingScore").style.display = "none";
-
+ 
 
 
 

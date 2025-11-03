@@ -12,6 +12,7 @@ export const thing5 = document.querySelector("#thing5LH");
 export const thingScore = document.querySelector("#thingScore");
 
 
+
 const state = {
   // store x/y in pixels (initialized to center of window)
   x: (window.innerWidth || 0) * 0.5,
